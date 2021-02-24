@@ -1,0 +1,22 @@
+@font-face {
+    font-family: Silkscreen;
+    src: url("slkscr.ttf");
+}
+
+body {
+    background-color: black;
+}
+
+h1 {
+    font-family: Silkscreen;
+    font-size: 32px;
+    color: white;
+    text-align: center;
+}
+
+h2 {
+    font-family: Silkscreen;
+    font-size: 28px;
+    color: white;
+    text-align: center;
+}
