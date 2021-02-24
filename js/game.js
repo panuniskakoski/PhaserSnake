@@ -7,12 +7,20 @@ let config = {
     type: Phaser.WEBGL,
     width: 640,
     height: 480,
-    backgroundColor: '#bfcc00',
+    antialias: false,
+    backgroundColor: '#c2bb5b',
     scene: {
         preload: preload,
         create: create,
         update: update
+    },
+    scale: {
+        parent: 'yourgamediv',
+        mode: Phaser.Scale.FIT,
+        width: 640,
+        height: 480
     }
+
 };
 
 // --------Muuttujat---------------------------
@@ -38,16 +46,35 @@ let game = new Phaser.Game(config);
 // Ladattaan kaikki tarvittavat assetit valmiiksi muistiin
 function preload ()
 {
+    // Spritet
+    this.load.image('backgroundFilter', 'assets/filter.png');
     this.load.image('food', 'assets/apple.png');
     this.load.image('head', 'assets/head.png');
     this.load.image('body', 'assets/body.png');
     this.load.image('skull', 'assets/skull.png');
+    
+    // Pelimusiikki
+    // this.load.audio('bg_track','assets/bg_track.mp3');
+    
+    // Peliäänet
+    this.load.audio('eatEffect','assets/eatEffect.wav');
+    this.load.audio('deadEffect','assets/deadEffect.wav');
 }
 
 // Erilaisten pelioliluokkien luominen
 // Suoritetaan vain kerran
 function create ()
 {
+    // Haetaan audio
+    // bg_track = this.sound.add('bg_track');
+    let eatEffect = this.sound.add('eatEffect');
+    let deadEffect = this.sound.add('deadEffect');
+    
+    // Soitetaan taustamusiikkia
+    // bg_track.play();
+    
+    this.add.image(320, 240, 'backgroundFilter');
+    
     // Luodaan syötäville luokka
     var Food = new Phaser.Class({
         
@@ -76,7 +103,7 @@ function create ()
             this.total++;
             
             // Toistetaan syömisääni
-            // TODO
+            eatEffect.play();
             
             // Arvotaan uusi sijainti ruualle sen jälkeen kun edellinen on syöty
             var x = Phaser.Math.Between(0, 39);
@@ -89,6 +116,7 @@ function create ()
     
     // Luodaan käärmeen luokka
     var Snake = new Phaser.Class({
+        
         initialize:
         
         // Alustetaan kaikki käärmeobjektin attribuutit
@@ -203,6 +231,7 @@ function create ()
             {
                 console.log('Snake dead. Game over!');
                 this.head.setTexture('skull');
+                deadEffect.play();
                 this.alive = false;
 
             }
@@ -232,6 +261,8 @@ function create ()
 
                 food.eat();
 
+                // eatEffect.play();
+                
                 //  Jos syötyjen omenoiden totaali on viidellä jaollinen, käärmeen nopeus kasvaa
                 if (this.speed > 20 && food.total % 5 === 0)
                 {
