@@ -54,7 +54,7 @@ function preload ()
     this.load.image('skull', 'assets/skull.png');
     
     // Pelimusiikki
-    // this.load.audio('bg_track','assets/bg_track.mp3');
+    this.load.audio('bg_track','assets/bg_track.wav');
     
     // Peliäänet
     this.load.audio('eatEffect','assets/eatEffect.wav');
@@ -66,12 +66,16 @@ function preload ()
 function create ()
 {
     // Haetaan audio
-    // bg_track = this.sound.add('bg_track');
+    let bg_track = this.sound.add('bg_track');
     let eatEffect = this.sound.add('eatEffect');
     let deadEffect = this.sound.add('deadEffect');
     
     // Soitetaan taustamusiikkia
-    // bg_track.play();
+    bg_track.loop = true;
+    bg_track.volume = 0.5;
+    bg_track.play();
+    
+    
     
     this.add.image(320, 240, 'backgroundFilter');
     
